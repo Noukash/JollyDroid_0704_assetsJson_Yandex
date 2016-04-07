@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         myCursor=mDb.query(dbOpenHelper.DB_TABLE, null, null, null, null, null, null);
         myAdapter=new MyCursorAdapter(this,myCursor);
         mycardlist.setAdapter(myAdapter);
-        Log.d("happy",myCursor.getString(myCursor.getColumnIndex(dbOpenHelper.COLUMN_SMALL_IMAGE)));
 
 
     }
