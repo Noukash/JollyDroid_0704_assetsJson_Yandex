@@ -17,7 +17,7 @@ import com.squareup.picasso.Picasso;
  */
 public class MyCursorAdapter extends CursorAdapter {
     TextView textview_singername,textView_singerGenres,textView_singerAlbumsTracks;
-    ImageView imageview_singername;
+    ImageView imageview_singerphoto;
     @SuppressWarnings("deprecation")
     public MyCursorAdapter(Context context,Cursor c){
         super(context,c);
@@ -33,15 +33,15 @@ public class MyCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         textview_singername=(TextView)view.findViewById(R.id.SingerName);
-        imageview_singername=(ImageView)view.findViewById(R.id.SingerPhoto);
+        imageview_singerphoto=(ImageView)view.findViewById(R.id.SingerPhoto);
         textView_singerGenres=(TextView)view.findViewById(R.id.SingerGenres);
         textView_singerAlbumsTracks=(TextView)view.findViewById(R.id.SingerAlbumsTracks);
         String small_image_url=cursor.getString(cursor.getColumnIndex(DbOpenHelper.COLUMN_SMALL_IMAGE));
-        Picasso.with(context).load(small_image_url).into(imageview_singername);
+        Picasso.with(context).load(small_image_url).into(imageview_singerphoto);
         textview_singername.setText(cursor.getString(cursor.getColumnIndex(DbOpenHelper.COLUMN_NAME)));
         textView_singerGenres.setText(cursor.getString(cursor.getColumnIndex(DbOpenHelper.COLUMN_GENRES)));
         textView_singerAlbumsTracks
-                .setText(cursor.getInt(cursor.getColumnIndex(DbOpenHelper.COLUMN_ALBUMS))+" альбомов, "+cursor.getInt(cursor.getColumnIndex(DbOpenHelper.COLUMN_TRACKS))+" песен");
+                .setText(cursor.getInt(cursor.getColumnIndex(DbOpenHelper.COLUMN_ALBUMS)) + " альбомов, " + cursor.getInt(cursor.getColumnIndex(DbOpenHelper.COLUMN_TRACKS)) + " песен");
 
     }
 }
