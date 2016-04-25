@@ -17,7 +17,7 @@ public class Singer {
     @SerializedName("name")
     private String singer_name;
     @SerializedName("genres")
-    private ArrayList<String> genre;
+    private List<String> genre;
     @SerializedName("tracks")
     private int tracks;
     @SerializedName("albums")
@@ -33,7 +33,7 @@ public class Singer {
         return singer_name;
     }
 
-    public ArrayList<String> getGenre() {
+    public List<String> getGenre() {
         return genre;
     }
 

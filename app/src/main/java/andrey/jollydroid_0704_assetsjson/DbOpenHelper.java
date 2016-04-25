@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.List;
 
@@ -12,8 +13,8 @@ import java.util.List;
  */
 public class DbOpenHelper extends SQLiteOpenHelper {
     Context mcontext;
-    JsonHelper jsonHelper;
     List<Singer> singers;
+    SQLiteDatabase db;
 
     final static String DB_NAME = "Singers.db";
     final static int DB_VERSION = 1;
@@ -25,9 +26,9 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     public static final String COLUMN_LINK = "Singer_Link";
     public static final String COLUMN_GENRES = "Singer_Genres";
     public static final String COLUMN_DESCRIPTION = "Singer_Description";
-    public static final String COLUMN_SMALL_IMAGE="Singer_Small_Image";
-    public static final String COLUMN_BIG_IMAGE="Singer_Big_Image";
-    public static final String[] COLUMNS = {COLUMN_NAME, COLUMN_ID, COLUMN_TRACKS, COLUMN_ALBUMS, COLUMN_LINK, COLUMN_GENRES, COLUMN_DESCRIPTION,COLUMN_SMALL_IMAGE,COLUMN_BIG_IMAGE};
+    public static final String COLUMN_SMALL_IMAGE = "Singer_Small_Image";
+    public static final String COLUMN_BIG_IMAGE = "Singer_Big_Image";
+    public static final String[] COLUMNS = {COLUMN_NAME, COLUMN_ID, COLUMN_TRACKS, COLUMN_ALBUMS, COLUMN_LINK, COLUMN_GENRES, COLUMN_DESCRIPTION, COLUMN_SMALL_IMAGE, COLUMN_BIG_IMAGE};
     private static String
             DB_CREATE = "CREATE TABLE " + DB_TABLE +
             " (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -45,35 +46,32 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(DB_CREATE);
-        jsonHelper=new JsonHelper();
-         singers=jsonHelper.TakeDataFromJson(mcontext);
-        for(Singer singer: singers){
-            InsertData(db,singer.getSinger_name(),singer.getId(),singer.getTracks(),singer.getAlbum_count(),singer.getLink(),
-                    singer.getGenre().toString(),singer.getCoverType().getSmall(),singer.getCoverType().getBig(),singer.getDescription());
-        }
-
-
 
 
     }
 
+    public void InsertDataInDB(List<Singer> singers) {
+        if(db==null){
+            db=getWritableDatabase();
+        }
+        db.execSQL("DROP TABLE IF EXISTS "+DB_TABLE);
+        db.execSQL(DB_CREATE);
 
-    public void InsertData(SQLiteDatabase db, String name, int id, int tracks, int albums, String link, String genres,String SmallImage, String BigImage, String description) {
+        for (Singer singer : singers) {
+            ContentValues values = new ContentValues(1);
+            values.put(COLUMN_NAME, singer.getSinger_name());
+            values.put(COLUMN_ID, singer.getId());
+            values.put(COLUMN_TRACKS, singer.getTracks());
+            values.put(COLUMN_ALBUMS, singer.getAlbum_count());
+            values.put(COLUMN_LINK, singer.getLink());
+            values.put(COLUMN_GENRES, singer.getGenre().toString());
+            values.put(COLUMN_SMALL_IMAGE, singer.getCoverType().getSmall());
+            values.put(COLUMN_BIG_IMAGE, singer.getCoverType().getBig());
+            values.put(COLUMN_DESCRIPTION, singer.getDescription());
 
-        ContentValues values = new ContentValues(1);
-        values.put(COLUMN_NAME, name);
-        values.put(COLUMN_ID, id);
-        values.put(COLUMN_TRACKS, tracks);
-        values.put(COLUMN_ALBUMS, albums);
-        values.put(COLUMN_LINK, link);
-        values.put(COLUMN_GENRES, genres);
-        values.put(COLUMN_SMALL_IMAGE,SmallImage);
-        values.put(COLUMN_BIG_IMAGE,BigImage);
-        values.put(COLUMN_DESCRIPTION, description);
 
-
-        db.insert(DB_TABLE, null, values);
-
+           db.insert(DB_TABLE, null, values);
+        }
     }
 
 
@@ -82,3 +80,5 @@ public class DbOpenHelper extends SQLiteOpenHelper {
 
     }
 }
+
+
