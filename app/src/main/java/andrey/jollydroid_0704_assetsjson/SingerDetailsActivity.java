@@ -38,6 +38,7 @@ public class SingerDetailsActivity extends AppCompatActivity {
         String[] selectionargs={db_id+""};
         dbOpenHelper=new DbOpenHelper(this);
         mDB=dbOpenHelper.getReadableDatabase();
+        //делаем запрос к базе данных по id переданному с интентом
         myPersonalCursor=mDB.query(dbOpenHelper.DB_TABLE,null,selection,selectionargs,null,null,null);
        if(myPersonalCursor!=null&& myPersonalCursor.moveToFirst()){
            String GenresText,AlbumsAndTracksText,BiographyText,Title;

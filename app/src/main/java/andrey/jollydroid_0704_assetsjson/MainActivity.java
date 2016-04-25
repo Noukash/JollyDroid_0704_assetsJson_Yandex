@@ -34,10 +34,8 @@ public class MainActivity extends AppCompatActivity {
     Cursor myCursor;
     MyCursorAdapter myAdapter;
     List<Singer> data;
-    ImageView imageview;
     private DbOpenHelper dbOpenHelper;
     SwipeRefreshLayout swipeRefreshLayout;
-    public static int refreshingcounts=0;
     public static final String DB_ID="DB_ID";
 
 

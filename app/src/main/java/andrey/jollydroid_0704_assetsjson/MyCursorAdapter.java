@@ -35,6 +35,7 @@ public class MyCursorAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+        //присваиваем данные нашим полям
         textview_singername=(TextView)view.findViewById(R.id.SingerName);
         imageview_singerphoto=(ImageView)view.findViewById(R.id.SingerPhoto);
         textView_singerGenres=(TextView)view.findViewById(R.id.SingerGenres);
